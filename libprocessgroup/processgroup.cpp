@@ -71,7 +71,7 @@ bool CgroupGetControllerPath(const std::string& cgroup_name, std::string* path) 
 
 bool CgroupGetAttributePath(const std::string& attr_name, std::string* path) {
     const TaskProfiles& tp = TaskProfiles::GetInstance();
-    const ProfileAttribute* attr = tp.GetAttribute(attr_name);
+    const IProfileAttribute* attr = tp.GetAttribute(attr_name);
 
     if (attr == nullptr) {
         return false;
@@ -86,7 +86,7 @@ bool CgroupGetAttributePath(const std::string& attr_name, std::string* path) {
 
 bool CgroupGetAttributePathForTask(const std::string& attr_name, int tid, std::string* path) {
     const TaskProfiles& tp = TaskProfiles::GetInstance();
-    const ProfileAttribute* attr = tp.GetAttribute(attr_name);
+    const IProfileAttribute* attr = tp.GetAttribute(attr_name);
 
     if (attr == nullptr) {
         return false;
@@ -112,11 +112,16 @@ static bool isMemoryCgroupSupported() {
 }
 
 void DropTaskProfilesResourceCaching() {
-    TaskProfiles::GetInstance().DropResourceCaching();
+    TaskProfiles::GetInstance().DropResourceCaching(ProfileAction::RCT_TASK);
+    TaskProfiles::GetInstance().DropResourceCaching(ProfileAction::RCT_PROCESS);
 }
 
 bool SetProcessProfiles(uid_t uid, pid_t pid, const std::vector<std::string>& profiles) {
-    return TaskProfiles::GetInstance().SetProcessProfiles(uid, pid, profiles);
+    return TaskProfiles::GetInstance().SetProcessProfiles(uid, pid, profiles, false);
+}
+
+bool SetProcessProfilesCached(uid_t uid, pid_t pid, const std::vector<std::string>& profiles) {
+    return TaskProfiles::GetInstance().SetProcessProfiles(uid, pid, profiles, true);
 }
 
 bool SetTaskProfiles(int tid, const std::vector<std::string>& profiles, bool use_fd_cache) {
@@ -192,7 +197,7 @@ void removeAllProcessGroups() {
     for (std::string cgroup_root_path : cgroups) {
         std::unique_ptr<DIR, decltype(&closedir)> root(opendir(cgroup_root_path.c_str()), closedir);
         if (root == NULL) {
-            PLOG(ERROR) << "Failed to open " << cgroup_root_path;
+            PLOG(ERROR) << __func__ << " failed to open " << cgroup_root_path;
         } else {
             dirent* dir;
             while ((dir = readdir(root.get())) != nullptr) {
@@ -278,7 +283,8 @@ static int DoKillProcessGroupOnce(const char* cgroup, uid_t uid, int initialPid,
             // This happens when process is already dead
             return 0;
         }
-        PLOG(WARNING) << "Failed to open process cgroup uid " << uid << " pid " << initialPid;
+        PLOG(WARNING) << __func__ << " failed to open process cgroup uid " << uid << " pid "
+                      << initialPid;
         return -1;
     }
 
