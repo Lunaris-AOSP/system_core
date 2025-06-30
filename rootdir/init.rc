@@ -390,6 +390,57 @@ on init
     copy /dev/cpuset/cpus /dev/cpuset/camera-daemon/cpus
     copy /dev/cpuset/mems /dev/cpuset/camera-daemon/mems
 
+    # Audio
+    mkdir /dev/cpuset/audio-app
+    copy /dev/cpuset/cpus /dev/cpuset/audio-app/cpus
+    copy /dev/cpuset/mems /dev/cpuset/audio-app/mems
+    chown system system /dev/cpuset/audio-app
+    chown system system /dev/cpuset/audio-app/tasks
+    chmod 0775 /dev/cpuset/audio-app/tasks
+    mkdir /dev/cpuctl/audio-app
+    chown system system /dev/cpuctl/audio-app
+    chown system system /dev/cpuctl/audio-app/tasks
+    chown system system /dev/cpuctl/audio-app/cgroup.procs
+    chmod 0664 /dev/cpuctl/audio-app/tasks
+    chmod 0664 /dev/cpuctl/audio-app/cgroup.procs
+    write /dev/cpuctl/audio-app/cpu.uclamp.min 1
+    write /dev/cpuctl/audio-app/cpu.uclamp.latency_sensitive 1
+    write /dev/cpuctl/audio-app/cpu.shares 20480
+
+    # Display
+    mkdir /dev/cpuset/display
+    copy /dev/cpuset/cpus /dev/cpuset/display/cpus
+    copy /dev/cpuset/mems /dev/cpuset/display/mems
+    chown system system /dev/cpuset/display
+    chown system system /dev/cpuset/display/tasks
+    chmod 0775 /dev/cpuset/display/tasks
+    mkdir /dev/cpuctl/display
+    chown system system /dev/cpuctl/display
+    chown system system /dev/cpuctl/display/tasks
+    chown system system /dev/cpuctl/display/cgroup.procs
+    chmod 0664 /dev/cpuctl/display/tasks
+    chmod 0664 /dev/cpuctl/display/cgroup.procs
+    write /dev/cpuctl/display/cpu.uclamp.min 1
+    write /dev/cpuctl/display/cpu.uclamp.latency_sensitive 1
+    write /dev/cpuctl/display/cpu.shares 20480
+    
+    # systemserver
+    mkdir /dev/cpuset/systemserver
+    copy /dev/cpuset/cpus /dev/cpuset/systemserver/cpus
+    copy /dev/cpuset/mems /dev/cpuset/systemserver/mems
+    chown system system /dev/cpuset/systemserver
+    chown system system /dev/cpuset/systemserver/tasks
+    chmod 0775 /dev/cpuset/systemserver/tasks
+    mkdir /dev/cpuctl/systemserver
+    chown system system /dev/cpuctl/systemserver
+    chown system system /dev/cpuctl/systemserver/tasks
+    chown system system /dev/cpuctl/systemserver/cgroup.procs
+    chmod 0664 /dev/cpuctl/systemserver/tasks
+    chmod 0664 /dev/cpuctl/systemserver/cgroup.procs
+    write /dev/cpuctl/systemserver/cpu.uclamp.min 1
+    write /dev/cpuctl/systemserver/cpu.uclamp.latency_sensitive 1
+    write /dev/cpuctl/systemserver/cpu.shares 20480
+
     # change permissions for all cpusets we'll touch at runtime
     chown system system /dev/cpuset
     chown system system /dev/cpuset/foreground
