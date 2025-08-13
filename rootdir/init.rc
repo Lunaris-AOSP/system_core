@@ -1522,10 +1522,14 @@ on property:persist.sys.axion_boot_completed=*
     write /dev/cpuset/svp/cpus ${persist.sys.axion_cpu_svp:-4-7}
     write /dev/cpuset/audio-app/cpus ${persist.sys.axion_cpu_audio:-0-5}
 
+# Enable bypass charging
 on property:sys.boot_completed=1 && property:persist.sys.battery_bypass_supported=true && property:persist.sys.battery_health_bypass_enabled=true
   write /sys/class/power_supply/battery/input_suspend 1
   write /sys/class/qcom-battery/input_suspend 1
+  write /proc/mtk_battery_cmd/current_cmd "0 1"
 
+# Disable bypass charging
 on property:sys.boot_completed=1 && property:persist.sys.battery_bypass_supported=true && property:persist.sys.battery_health_bypass_enabled=false
   write /sys/class/power_supply/battery/input_suspend 0
   write /sys/class/qcom-battery/input_suspend 0
+  write /proc/mtk_battery_cmd/current_cmd "0 0"
