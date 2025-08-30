@@ -1456,7 +1456,6 @@ on boot
     write /proc/sys/vm/vfs_cache_pressure 100
     write /proc/sys/vm/dirty_background_ratio 3
     write /proc/sys/vm/dirty_ratio 10
-    write /proc/sys/kernel/sched_rr_timeslice_ms 100
     # Change sched lib affinity
     write /proc/vendor_sched/sched_lib_name "UnityMain,libunity.so"
     write /proc/vendor_sched/prefer_idle_task_name "InputDispatcher,InputReader"
@@ -1506,6 +1505,8 @@ on property:persist.sys.axion_boot_completed=*
     write /dev/cpuset/system-background/cpus ${persist.sys.axion_cpu_sys_bg:-0-3}
     write /dev/cpuset/background/cpus ${persist.sys.axion_cpu_bg:-0-2}
     write /dev/cpuset/display/cpus ${persist.sys.axion_cpu_display:-0-5}
+
+    write /proc/sys/kernel/sched_rr_timeslice_ms 1
 
 # Enable bypass charging
 on property:sys.boot_completed=1 && property:persist.sys.battery_bypass_supported=true && property:persist.sys.battery_health_bypass_enabled=true
