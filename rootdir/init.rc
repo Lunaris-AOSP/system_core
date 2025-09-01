@@ -190,7 +190,7 @@ on init
     chmod 0664 /dev/cpuctl/system/tasks
     chmod 0664 /dev/cpuctl/system-background/tasks
     chmod 0664 /dev/cpuctl/dex2oat/tasks
-    chmod 0664 /dev/cpuctl/cgroup.procs
+    chmod 0755 /dev/cpuctl/cgroup.procs
     chmod 0664 /dev/cpuctl/foreground/cgroup.procs
     chmod 0664 /dev/cpuctl/foreground_window/cgroup.procs
     chmod 0664 /dev/cpuctl/background/cgroup.procs
@@ -1509,12 +1509,12 @@ on property:persist.sys.is_upgrade=1
     
 on property:persist.sys.axion_boot_completed=*
     # write initial cpuset
-    write /dev/cpuset/top-app/cpus ${persist.sys.axion_cpu_unlimit_ui:-0-7}
-    write /dev/cpuset/camera-daemon/cpus ${persist.sys.axion_cpu_unlimit_ui:-0-7}
-    write /dev/cpuset/foreground/cpus ${persist.sys.axion_cpu_fg:-0-5}
-    write /dev/cpuset/foreground_window/cpus ${persist.sys.axion_cpu_fg:-0-5}
-    write /dev/cpuset/nt_foreground/cpus ${persist.sys.axion_cpu_unlimit_ui:-0-7}
-    write /dev/cpuset/restricted/cpus ${persist.sys.axion_cpu_unlimit_ui:-0-7}
+    write /dev/cpuset/top-app/cpus ${persist.sys.axion_cpu_all:-0-7}
+    write /dev/cpuset/camera-daemon/cpus ${persist.sys.axion_cpu_all:-0-7}
+    write /dev/cpuset/foreground/cpus ${persist.sys.axion_cpu_fg:-0-7}
+    write /dev/cpuset/foreground_window/cpus ${persist.sys.axion_cpu_fg:-0-7}
+    write /dev/cpuset/nt_foreground/cpus ${persist.sys.axion_cpu_limit_bg:-0-2}
+    write /dev/cpuset/restricted/cpus ${persist.sys.axion_cpu_all:-0-7}
     write /dev/cpuset/system-background/cpus ${persist.sys.axion_cpu_sys_bg:-0-3}
     write /dev/cpuset/background/cpus ${persist.sys.axion_cpu_bg:-0-2}
     write /dev/cpuset/display/cpus ${persist.sys.axion_cpu_display:-0-5}
