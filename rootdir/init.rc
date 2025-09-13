@@ -1521,6 +1521,8 @@ on property:persist.sys.axion_boot_completed=*
 
     write /proc/sys/kernel/sched_rr_timeslice_ms 1
 
+    stop statsd
+
 # Enable bypass charging
 on property:sys.boot_completed=1 && property:persist.sys.battery_bypass_supported=true && property:persist.sys.battery_health_bypass_enabled=true
   write /sys/class/power_supply/battery/input_suspend 1
