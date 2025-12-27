@@ -219,6 +219,14 @@
             "Controller": "cpu",
             "Path": "top-app"
           }
+        },
+        {
+          "Name": "SetAttribute",
+          "Params":
+          {
+            "Name": "UClampMin",
+            "Value": "10"
+          }
         }
       ]
     },
@@ -650,7 +658,7 @@
             "Controller": "cpu",
             "Path": "svp"
           }
-        },
+        }
       ]
     },
     {
@@ -922,6 +930,69 @@
           }
         }
       ]
+    },
+    {
+      "Name": "BoostMedium",
+      "Actions": [
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
+            "Path": "top-app"
+          }
+        },
+        {
+          "Name": "SetAttribute",
+          "Params":
+          {
+            "Name": "UClampMin",
+            "Value": "30"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "BoostHigh",
+      "Actions": [
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
+            "Path": "top-app"
+          }
+        },
+        {
+          "Name": "SetAttribute",
+          "Params":
+          {
+            "Name": "UClampMin",
+            "Value": "50"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "BoostMax",
+      "Actions": [
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
+            "Path": "top-app"
+          }
+        },
+        {
+          "Name": "SetAttribute",
+          "Params":
+          {
+            "Name": "UClampMin",
+            "Value": "70"
+          }
+        }
+      ]
     }
   ],
 
@@ -1022,5 +1093,17 @@
       "Name": "CPUSET_SP_AUDIO",
       "Profiles": [ "HighPerformance", "AudioPolicy", "HighIoPriority", "TimerSlackNormal" ]
     },
+    {
+      "Name": "SCHED_SP_BOOST_MEDIUM",
+      "Profiles": [ "BoostMedium", "MaxIoPriority", "TimerSlackNormal" ]
+    },
+    {
+      "Name": "SCHED_SP_BOOST_HIGH",
+      "Profiles": [ "BoostHigh", "MaxIoPriority", "TimerSlackNormal" ]
+    },
+    {
+      "Name": "SCHED_SP_BOOST_MAX",
+      "Profiles": [ "BoostMax", "MaxIoPriority", "TimerSlackNormal" ]
+    }
   ]
 }
