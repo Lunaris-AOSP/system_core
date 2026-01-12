@@ -1537,3 +1537,14 @@ on property:sys.boot_completed=1 && property:persist.sys.battery_bypass_supporte
 on property:persist.sys.axion_boot_completed=* && property:persist.sys.target_disables_libperf=true
     setprop vendor.powerhal.init 0
     restart vendor.power-hal-aidl
+    
+on property:persist.sys.power_mode_perf=1 && property:persist.sys.dev_supports_perf_gov=true
+    setprop persist.sys.scaling_governor "performance"
+
+on property:persist.sys.power_mode_perf=0 && property:persist.sys.dev_supports_perf_gov=true
+    setprop persist.sys.scaling_governor ${persist.sys.default_scaling_gov}
+
+on property:persist.sys.scaling_governor=*
+    write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_small_index}/cpufreq/scaling_governor ${persist.sys.scaling_governor}
+    write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_big_index}/cpufreq/scaling_governor ${persist.sys.scaling_governor}
+    write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_prime_index}/cpufreq/scaling_governor ${persist.sys.scaling_governor}
