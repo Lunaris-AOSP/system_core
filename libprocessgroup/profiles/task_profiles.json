@@ -300,14 +300,6 @@
             "Controller": "cpuset",
             "Path": "dex2oat"
           }
-        },
-        {
-          "Name": "JoinCgroup",
-          "Params":
-          {
-            "Controller": "cpu",
-            "Path": "system-background"
-          }
         }
       ]
     },
