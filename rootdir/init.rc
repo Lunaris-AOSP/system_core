@@ -1541,6 +1541,17 @@ on property:sys.boot_completed=1 && property:persist.sys.battery_bypass_supporte
   write /sys/class/qcom-battery/input_suspend 0
   write /proc/mtk_battery_cmd/current_cmd "0 0"
     
+    #pixel tunings
+    write /proc/vendor_sched/uclamp_max_filter_divider 4
+    write /proc/vendor_sched/uclamp_max_filter_rt 16
+    write /proc/vendor_sched/uclamp_max_filter_enable 1
+    write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_small_index}/cpufreq/sched_pixel/up_rate_limit_us 2000
+    write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_big_index}/cpufreq/sched_pixel/up_rate_limit_us 2000
+    write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_prime_index}/cpufreq/sched_pixel/up_rate_limit_us 2000
+    write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_small_index}/cpufreq/sched_pixel/down_rate_limit_us 2000
+    write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_big_index}/cpufreq/sched_pixel/down_rate_limit_us 2000
+    write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_prime_index}/cpufreq/sched_pixel/down_rate_limit_us 2000
+
 on property:persist.sys.axion_boot_completed=* && property:persist.sys.target_disables_libperf=true
     setprop vendor.powerhal.init 0
     restart vendor.power-hal-aidl
