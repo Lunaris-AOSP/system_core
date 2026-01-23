@@ -225,7 +225,7 @@
           "Params":
           {
             "Name": "UClampMin",
-            "Value": "10"
+            "Value": "1"
           }
         }
       ]
