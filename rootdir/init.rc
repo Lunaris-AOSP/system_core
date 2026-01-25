@@ -1552,6 +1552,9 @@ on property:sys.boot_completed=1 && property:persist.sys.battery_bypass_supporte
     write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_small_index}/cpufreq/sched_pixel/down_rate_limit_us 2000
     write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_big_index}/cpufreq/sched_pixel/down_rate_limit_us 2000
     write /sys/devices/system/cpu/cpu${persist.sys.axion_cpu_prime_index}/cpufreq/sched_pixel/down_rate_limit_us 2000
+    #pixel bore
+    write /proc/vendor_sched/latency_ns 24000000
+    write /proc/vendor_sched/min_granularity_ns 3000000
 
 on property:persist.sys.axion_boot_completed=* && property:persist.sys.target_disables_libperf=true
     setprop vendor.powerhal.init 0
