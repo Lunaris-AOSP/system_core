@@ -225,7 +225,8 @@
           "Params":
           {
             "Name": "UClampMin",
-            "Value": "1"
+            "Value": "1",
+            "Optional": "true"
           }
         }
       ]
@@ -942,7 +943,8 @@
           "Params":
           {
             "Name": "UClampMin",
-            "Value": "30"
+            "Value": "30",
+            "Optional": "true"
           }
         }
       ]
@@ -984,7 +986,8 @@
           "Params":
           {
             "Name": "UClampMin",
-            "Value": "70"
+            "Value": "70",
+            "Optional": "true"
           }
         }
       ]

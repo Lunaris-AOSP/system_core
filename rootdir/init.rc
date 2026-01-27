@@ -318,6 +318,19 @@ on init
     chmod 0664 /dev/stune/nnapi-hal/cgroup.procs
     write /dev/stune/nnapi-hal/schedtune.boost 1
     write /dev/stune/nnapi-hal/schedtune.prefer_idle 1
+    
+    #top-app permissions override
+    chown system system /dev/cpuctl/top-app
+    chown system system /dev/cpuctl/top-app/tasks
+    chown system system /dev/cpuctl/top-app/cgroup.procs
+    chown system system /dev/cpuctl/top-app/cpu.uclamp.latency_sensitive
+    chown system system /dev/cpuctl/top-app/cpu.uclamp.max
+    chown system system /dev/cpuctl/top-app/cpu.uclamp.min
+    chmod 0775 /dev/cpuctl/top-app/tasks
+    chmod 0775 /dev/cpuctl/top-app/cgroup.procs
+    chmod 0775 /dev/cpuctl/top-app/cpu.uclamp.latency_sensitive
+    chmod 0775 /dev/cpuctl/top-app/cpu.uclamp.max
+    chmod 0775 /dev/cpuctl/top-app/cpu.uclamp.min
 
     # Create blkio group and apply initial settings.
     # This feature needs kernel to support it, and the
