@@ -397,11 +397,14 @@ on init
     copy /dev/cpuset/cpus /dev/cpuset/camera-daemon/cpus
     copy /dev/cpuset/mems /dev/cpuset/camera-daemon/mems
 
+    mkdir /dev/cpuset/surfaceflinger
+
     # change permissions for all cpusets we'll touch at runtime
     chown system system /dev/cpuset
     chown system system /dev/cpuset/foreground
     chown system system /dev/cpuset/foreground_window
     chown system system /dev/cpuset/background
+    chown system system /dev/cpuset/surfaceflinger
     chown system system /dev/cpuset/system-background
     chown system system /dev/cpuset/top-app
     chown system system /dev/cpuset/restricted
@@ -410,6 +413,7 @@ on init
     chown system system /dev/cpuset/foreground/tasks
     chown system system /dev/cpuset/foreground_window/tasks
     chown system system /dev/cpuset/background/tasks
+    chown system system /dev/cpuset/surfaceflinger/tasks
     chown system system /dev/cpuset/system-background/tasks
     chown system system /dev/cpuset/top-app/tasks
     chown system system /dev/cpuset/restricted/tasks
@@ -418,6 +422,7 @@ on init
     chown system system /dev/cpuset/foreground/cgroup.procs
     chown system system /dev/cpuset/foreground_window/cgroup.procs
     chown system system /dev/cpuset/background/cgroup.procs
+    chown system system /dev/cpuset/surfaceflinger/cgroup.procs
     chown system system /dev/cpuset/system-background/cgroup.procs
     chown system system /dev/cpuset/top-app/cgroup.procs
     chown system system /dev/cpuset/restricted/cgroup.procs
@@ -426,9 +431,13 @@ on init
     # set system-background to 0775 so SurfaceFlinger can touch it
     chmod 0775 /dev/cpuset/system-background
 
+    # set surfaceflinger to 0775 so SurfaceFlinger can touch it
+    chmod 0775 /dev/cpuset/surfaceflinger
+
     chmod 0664 /dev/cpuset/foreground/tasks
     chmod 0664 /dev/cpuset/foreground_window/tasks
     chmod 0664 /dev/cpuset/background/tasks
+    chmod 0664 /dev/cpuset/surfaceflinger/tasks
     chmod 0664 /dev/cpuset/system-background/tasks
     chmod 0664 /dev/cpuset/top-app/tasks
     chmod 0664 /dev/cpuset/restricted/tasks
@@ -437,6 +446,7 @@ on init
     chmod 0664 /dev/cpuset/foreground/cgroup.procs
     chmod 0664 /dev/cpuset/foreground_window/cgroup.procs
     chmod 0664 /dev/cpuset/background/cgroup.procs
+    chmod 0664 /dev/cpuset/surfaceflinger/cgroup.procs
     chmod 0664 /dev/cpuset/system-background/cgroup.procs
     chmod 0664 /dev/cpuset/top-app/cgroup.procs
     chmod 0664 /dev/cpuset/restricted/cgroup.procs
@@ -1187,6 +1197,9 @@ on boot
     write /proc/sys/vm/min_free_order_shift 4
     write /proc/sys/vm/dirty_background_bytes 52428800
     write /proc/sys/vm/dirty_bytes 209715200
+
+    write /dev/cpuset/surfaceflinger/cpus 2-5
+    write /dev/cpuset/surfaceflinger/mems 0
 
     # System server manages zram writeback
     chown root system /sys/block/zram0/idle
